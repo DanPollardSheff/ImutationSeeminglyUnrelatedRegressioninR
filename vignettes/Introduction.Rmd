@@ -1,0 +1,38 @@
+---
+title: "Introduction"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+#Description
+This package allows you to fit any regression in the system fit package to imputed data, and extract the coefficients and coavariance matrices that have been combined using Rubin's Rules as detailed in Anders.[1]
+
+##References\ 
+[1] Enders CK. Applied missing data analysis. Guilford Publications; 2022 Jul 1.
+
+
+```{r}
+library(mice)
+library(systemfit)
+library(RegressionandMultipleImputation)
+
+#Need to impute, you should follow best practice but here is a trivial example
+#use the example nhanes2 data set in mice
+imputed_nhanes2 <- mice(nhanes2,m=20, maxit = 10, seed = 1234, print = F)
+
+#Define your regressions and put them in a list
+eq1 <- chl ~ hyp
+eq2 <- bmi ~ hyp
+system <- list(eq1,eq2)
+
+#Note be careful of factor variables, as each level (-1) produces a separate coefficent
+coef_covar <- mice_seeminglyunrelatedregression(
+  imputed_nhanes2,
+  20,
+  system,
+  4, 
+  "SUR"
+)
+```
