@@ -25,7 +25,7 @@ imputed_data_list <- lapply(1:imputation_numb_, function(i)complete(imputed_data
 
 ###Make a matrix to store the coefficents
 regressioncoefficents <- matrix(data=NA, nrow = numb_covar_, ncol = imputation_numb_)
-covmatrices <- array(data = NA, dim = c(numb_covar_,numb_covar_,80))
+covmatrices <- array(data = NA, dim = c(numb_covar_,numb_covar_,imputation_numb_))
 
 ##MICE and systemfit are not compatible, need to split them out into seperate dataframes
 #Fit SURREG to each imputed dataset
